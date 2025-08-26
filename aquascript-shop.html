@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaScript | Premium Products</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-black: #000;
+            --primary-white: #fff;
+            --accent-gray: #1a1a1a;
+            --light-gray: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-white);
+            background-color: var(--primary-black);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.9) !important;
+            padding: 20px 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-white);
+            letter-spacing: 2px;
+        }
+        
+        .nav-link {
+            color: var(--primary-white) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-white);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            z-index: 100;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+        
+        .btn-outline-light {
+            border-width: 2px;
+            border-radius: 0;
+            padding: 12px 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-light:hover {
+            background-color: var(--primary-white);
+            color: var(--primary-black);
+        }
+        
+        /* Section Common Styles */
+        .section {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background-color: var(--primary-white);
+            bottom: -10px;
+            left: 0;
+        }
+        
+        /* About Section */
+        .about-content {
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Products Section */
+        .product-card {
+            background-color: var(--accent-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.1);
+        }
+        
+        .product-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-img img {
+            transform: scale(1.1);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        /* Features Section */
+        .feature-box {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--accent-gray);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary-white);
+        }
+        
+        /* Testimonials */
+        .testimonial-card {
+            background-color: var(--accent-gray);
+            padding: 30px;
+            border-radius: 10px;
+            height: 100%;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+        }
+        
+        /* Contact Section */
+        .contact-form .form-control {
+            background-color: var(--accent-gray);
+            border: none;
+            border-radius: 0;
+            color: var(--primary-white);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-form .form-control:focus {
+            box-shadow: none;
+            border: 1px solid var(--primary-white);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--accent-gray);
+            padding: 50px 0 20px;
+        }
+        
+        .social-links {
+            margin-bottom: 30px;
+        }
+        
+        .social-links a {
+            color: var(--primary-white);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: #ccc;
+        }
+        
+        /* Canvas for particles */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        /* Animation elements */
+        .animate-element {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section {
+                padding: 70px 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">AQUASCRIPT</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#products">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div id="particles-js"></div>
+        <div class="container hero-content">
+            <div class="row">
+                <div class="col-lg-7">
+                    <h1 class="animate-element">Elevate Your Experience With AquaScript</h1>
+                    <p class="animate-element">Discover our premium collection of innovative products designed to transform your everyday life with elegance and functionality.</p>
+                    <a href="#products" class="btn btn-outline-light animate-element">Explore Products</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title animate-element">About Us</h2>
+            <div class="row">
+                <div class="col-lg-6 about-content">
+                    <p class="animate-element">AquaScript is a premium lifestyle brand dedicated to creating innovative products that seamlessly blend form and function. Founded in 2015, we've been committed to excellence in design and craftsmanship.</p>
+                    <p class="animate-element">Our philosophy centers on creating products that enhance daily experiences through thoughtful design, premium materials, and attention to detail. Each item in our collection is meticulously crafted to meet the highest standards of quality.</p>
+                    <p class="animate-element">At AquaScript, we believe that everyday objects should not only serve a purpose but also inspire and delight. Our black and white aesthetic represents our commitment to timeless design that transcends trends.</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="feature-box animate-element">
+                                <div class="feature-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <h4>Premium Quality</h4>
+                                <p>Exceptional materials and craftsmanship</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-box animate-element">
+                                <div class="feature-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h4>Sustainable</h4>
+                                <p>Eco-friendly practices and materials</p>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-4">
+                            <div class="feature-box animate-element">
+                                <div class="feature-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <h4>Innovative</h4>
+                                <p>Cutting-edge design and technology</p>
+                            </div>
+                        </div>
+                        <div class="col-6 mt-4">
+                            <div class="feature-box animate-element">
+                                <div class="feature-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <h4>Customer Focused</h4>
+                                <p>Products designed with you in mind</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="section bg-dark">
+        <div class="container">
+            <h2 class="section-title animate-element">Our Products</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="product-card animate-element">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" alt="Product 1">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Minimalist Timepiece</h3>
+                            <p class="product-price">$249</p>
+                            <p>Elegant watch with precision movement and sapphire crystal glass.</p>
+                            <a href="#" class="btn btn-outline-light mt-3">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="product-card animate-element">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" alt="Product 2">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Premium Writing Set</h3>
+                            <p class="product-price">$189</p>
+                            <p>Luxury fountain pen and notebook set for the discerning writer.</p>
+                            <a href="#" class="btn btn-outline-light mt-3">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="product-card animate-element">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" alt="Product 3">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Wireless Audio</h3>
+                            <p class="product-price">$329</p>
+                            <p>High-fidelity headphones with noise cancellation technology.</p>
+                            <a href="#" class="btn btn-outline-light mt-3">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="section-title animate-element">Why Choose Us</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-box animate-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h4>Premium Materials</h4>
+                        <p>We source only the finest materials from trusted suppliers around the world.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-box animate-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h4>Expert Craftsmanship</h4>
+                        <p>Each product is meticulously crafted by skilled artisans with attention to detail.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-box animate-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <h4>Global Shipping</h4>
+                        <p>We deliver to over 50 countries with fast and reliable shipping options.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section bg-dark">
+        <div class="container">
+            <h2 class="section-title animate-element">What Our Customers Say</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card animate-element">
+                        <p class="testimonial-text">"The quality of AquaScript products is exceptional. I've been using their minimalist watch for over a year and it still looks brand new."</p>
+                        <p class="testimonial-author">- Sarah Johnson</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card animate-element">
+                        <p class="testimonial-text">"I absolutely love my writing set. The attention to detail is remarkable, and it's become my daily companion for journaling."</p>
+                        <p class="testimonial-author">- Michael Chen</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card animate-element">
+                        <p class="testimonial-text">"The headphones provide crystal clear sound and the noise cancellation is incredible. Worth every penny for the premium experience."</p>
+                        <p class="testimonial-author">- Emily Rodriguez</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title animate-element">Get In Touch</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <form class="contact-form">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Your Name">
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email">
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" rows="5" placeholder="Your Message"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-outline-light">Send Message</button>
+                    </form>
+                </div>
+                <div class="col-lg-6 mt-5 mt-lg-0">
+                    <div class="feature-box h-100">
+                        <h4>Contact Information</h4>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> 123 Design Street, Creative City</p>
+                        <p><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope me-2"></i> info@aquascript.com</p>
+                        <div class="social-links mt-4">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>AQUASCRIPT</h3>
+                    <p>Elevating everyday experiences through exceptional design.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2023 AquaScript. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script> 
+
+    <script>
+        // Initialize Lenis for smooth scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Initialize particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Scroll animations with Anime.js
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements on scroll
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.animate-element');
+                
+                elements.forEach(element => {
+                    const position = element.getBoundingClientRect();
+                    
+                    // If element is in viewport
+                    if(position.top < window.innerHeight && position.bottom >= 0) {
+                        anime({
+                            targets: element,
+                            translateY: 0,
+                            opacity: 1,
+                            duration: 1000,
+                            easing: 'easeOutExpo'
+                        });
+                    }
+                });
+            }
+            
+            // Run on load and scroll
+            animateOnScroll();
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // Navbar background change on scroll
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.95) !important';
+                    navbar.style.padding = '15px 0';
+                } else {
+                    navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.9) !important';
+                    navbar.style.padding = '20px 0';
+                }
+            });
+            
+            // Hero text animation
+            anime.timeline({
+                targets: '.hero-content .animate-element',
+            })
+            .add({
+                translateY: [50, 0],
+                opacity: [0, 1],
+                duration: 1500,
+                delay: anime.stagger(300),
+                easing: 'easeOutExpo'
+            });
+            
+            // Continuous subtle animation for feature icons
+            anime({
+                targets: '.feature-icon',
+                translateY: [-10, 10],
+                direction: 'alternate',
+                loop: true,
+                easing: 'easeInOutSine',
+                duration: 2000,
+                delay: anime.stagger(200)
+            });
+        });
+    </script>
+</body>
+</html>
