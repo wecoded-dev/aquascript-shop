@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Timepiece | AquaScript</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-black: #000;
+            --primary-white: #fff;
+            --accent-gray: #1a1a1a;
+            --light-gray: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-white);
+            background-color: var(--primary-black);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.9) !important;
+            padding: 20px 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-white);
+            letter-spacing: 2px;
+        }
+        
+        .nav-link {
+            color: var(--primary-white) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-white);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        /* Product Section */
+        .product-section {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-gallery {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .main-product-image {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.5s ease;
+            cursor: pointer;
+        }
+        
+        .main-product-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .product-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .product-thumbnail:hover, .product-thumbnail.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .product-info {
+            padding-left: 40px;
+        }
+        
+        .product-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .product-price {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .product-description {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .product-details {
+            margin-bottom: 30px;
+        }
+        
+        .detail-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .detail-icon {
+            font-size: 1.2rem;
+            margin-right: 15px;
+            width: 24px;
+        }
+        
+        .detail-content {
+            flex: 1;
+        }
+        
+        .color-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.2);
+        }
+        
+        .color-black {
+            background-color: var(--primary-black);
+            border: 2px solid var(--primary-white);
+        }
+        
+        .color-silver {
+            background-color: #c0c0c0;
+            border: 2px solid var(--primary-white);
+        }
+        
+        .color-white {
+            background-color: var(--primary-white);
+            border: 2px solid var(--primary-white);
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-gray);
+            border: none;
+            color: var(--primary-white);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            background-color: var(--accent-gray);
+            border: none;
+            color: var(--primary-white);
+            font-size: 1.1rem;
+            margin: 0 10px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn-add-to-cart {
+            background-color: var(--primary-white);
+            color: var(--primary-black);
+            border: none;
+            padding: 15px 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-add-to-cart:hover {
+            background-color: transparent;
+            color: var(--primary-white);
+            border: 1px solid var(--primary-white);
+        }
+        
+        .btn-wishlist {
+            background-color: transparent;
+            color: var(--primary-white);
+            border: 1px solid var(--primary-white);
+            padding: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-wishlist:hover {
+            background-color: var(--primary-white);
+            color: var(--primary-black);
+        }
+        
+        /* Specifications Section */
+        .specs-section {
+            padding: 100px 0;
+            background-color: var(--accent-gray);
+            position: relative;
+        }
+        
+        .specs-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .specs-table tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .specs-table td {
+            padding: 20px;
+        }
+        
+        .specs-table td:first-child {
+            font-weight: 600;
+            width: 30%;
+        }
+        
+        /* Related Products */
+        .related-section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background-color: var(--primary-white);
+            bottom: -10px;
+            left: 0;
+        }
+        
+        .related-product {
+            background-color: var(--accent-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            height: 100%;
+        }
+        
+        .related-product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.1);
+        }
+        
+        .related-product-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .related-product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .related-product:hover .related-product-img img {
+            transform: scale(1.1);
+        }
+        
+        .related-product-info {
+            padding: 20px;
+        }
+        
+        .related-product-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .related-product-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        /* Animation elements */
+        .animate-element {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .product-title {
+                font-size: 2.5rem;
+            }
+            
+            .product-info {
+                padding-left: 0;
+                margin-top: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .product-section {
+                padding: 70px 0;
+            }
+            
+            .product-title {
+                font-size: 2rem;
+            }
+            
+            .product-price {
+                font-size: 1.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .product-title {
+                font-size: 1.8rem;
+            }
+            
+            .thumbnail-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">AQUASCRIPT</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Collections</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Product Section -->
+    <section class="product-section">
+        <div id="particles-js"></div>
+        
+        <!-- Floating elements -->
+        <div class="floating-element" style="top: 10%; left: 5%;">
+            <i class="fas fa-circle" style="font-size: 30px;"></i>
+        </div>
+        <div class="floating-element" style="top: 20%; right: 10%;">
+            <i class="fas fa-square" style="font-size: 40px;"></i>
+        </div>
+        <div class="floating-element" style="bottom: 30%; left: 15%;">
+            <i class="fas fa-heart" style="font-size: 25px;"></i>
+        </div>
+        <div class="floating-element" style="bottom: 20%; right: 5%;">
+            <i class="fas fa-star" style="font-size: 35px;"></i>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="product-gallery">
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" 
+                             alt="Minimalist Timepiece" class="main-product-image animate-element" id="main-product-image">
+                        
+                        <div class="thumbnail-container">
+                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" 
+                                 alt="Product thumbnail 1" class="product-thumbnail active" 
+                                 data-image="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80">
+                                 
+                            <img src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" 
+                                 alt="Product thumbnail 2" class="product-thumbnail" 
+                                 data-image="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80">
+                                 
+                            <img src="https://images.unsplash.com/photo-1539874754764-5a96559165b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" 
+                                 alt="Product thumbnail 3" class="product-thumbnail" 
+                                 data-image="https://images.unsplash.com/photo-1539874754764-5a96559165b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80">
+                                 
+                            <img src="https://images.unsplash.com/photo-1551362257-086a4c6dc46e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" 
+                                 alt="Product thumbnail 4" class="product-thumbnail" 
+                                 data-image="https://images.unsplash.com/photo-1551362257-086a4c6dc46e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="product-info">
+                        <h1 class="product-title animate-element">Minimalist Timepiece</h1>
+                        <p class="product-price animate-element">$249</p>
+                        
+                        <div class="product-description animate-element">
+                            <p>Experience the perfect blend of minimalist design and precision engineering with our flagship timepiece. Crafted with attention to detail and premium materials, this watch is designed for those who appreciate understated elegance.</p>
+                        </div>
+                        
+                        <div class="product-details animate-element">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-barcode"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <strong>Product Code:</strong> AQ-MT-2023
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <strong>Collection:</strong> Minimalist Series
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-tag"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <strong>In Stock:</strong> 15 pieces available
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <strong>Rating:</strong> 
+                                    <span>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        (4.7/5.0)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="color-selection animate-element">
+                            <h5>Color Options:</h5>
+                            <div class="color-options">
+                                <div class="color-option color-black" data-color="Black" title="Black"></div>
+                                <div class="color-option color-silver" data-color="Silver" title="Silver"></div>
+                                <div class="color-option color-white" data-color="White" title="White"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="quantity-selector animate-element">
+                            <h5 class="me-3">Quantity:</h5>
+                            <button class="quantity-btn" id="decrease-qty">-</button>
+                            <input type="text" class="quantity-input" id="product-qty" value="1">
+                            <button class="quantity-btn" id="increase-qty">+</button>
+                        </div>
+                        
+                        <div class="action-buttons animate-element">
+                            <button class="btn btn-add-to-cart">
+                                <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+                            </button>
+                            <button class="btn btn-wishlist">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Specifications Section -->
+    <section class="specs-section">
+        <div class="container">
+            <h2 class="specs-title animate-element">Technical Specifications</h2>
+            
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <table class="specs-table">
+                        <tr class="animate-element">
+                            <td>Movement</td>
+                            <td>Japanese automatic movement, 21 jewels</td>
+                        </tr>
+                        <tr class="animate-element">
+                            <td>Case Material</td>
+                            <td>316L stainless steel with brushed finish</td>
+                        </tr>
+                        <tr class="animate-element">
+                            <td>Case Diameter</td>
+                            <td>40mm</td>
+                        </tr>
+                        <tr class="animate-element">
+                            <td>Case Thickness</td>
+                            <td>10mm</td>
+                        </tr>
+                        <tr class="animate-element">
+                            <td>Water Resistance</td>
+                            <td>10 ATM (100 meters)</td>
+                        </tr>
+                        <tr class="animate-element">
+                            <td>Crystal</td>
+                            <td>Scratch-resistant sapphire crystal</td>
+                        </tr>
+                        <tr class="animate-element">
+                            <td>Strap</td>
+                            <td>Italian leather with quick-release mechanism</td>
+                        </tr>
+                        <tr class="animate-element">
+                            <td>Dial Color</td>
+                            <td>Matte black with luminescent hands</td>
+                        </tr>
+                        <tr class="animate-element">
+                            <td>Power Reserve</td>
+                            <td>Approximately 41 hours</td>
+                        </tr>
+                        <tr class="animate-element">
+                            <td>Warranty</td>
+                            <td>3 years international warranty</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Related Products -->
+    <section class="related-section">
+        <div class="container">
+            <h2 class="section-title animate-element">Related Products</h2>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="related-product animate-element">
+                        <div class="related-product-img">
+                            <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" alt="Premium Writing Set">
+                        </div>
+                        <div class="related-product-info">
+                            <h3 class="related-product-title">Premium Writing Set</h3>
+                            <p class="related-product-price">$189</p>
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="related-product animate-element">
+                        <div class="related-product-img">
+                            <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" alt="Wireless Audio">
+                        </div>
+                        <div class="related-product-info">
+                            <h3 class="related-product-title">Wireless Audio</h3>
+                            <p class="related-product-price">$329</p>
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="related-product animate-element">
+                        <div class="related-product-img">
+                            <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" alt="Sunglasses">
+                        </div>
+                        <div class="related-product-info">
+                            <h3 class="related-product-title">Classic Sunglasses</h3>
+                            <p class="related-product-price">$159</p>
+                            <a href="#" class="btn btn-outline-light">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script> 
+
+    <script>
+        // Initialize Lenis for smooth scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Initialize particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 60,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    }
+                },
+                opacity: {
+                    value: 0.3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.5
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Product image gallery functionality
+        document.querySelectorAll('.product-thumbnail').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                // Update main image
+                document.getElementById('main-product-image').src = this.dataset.image;
+                
+                // Update active thumbnail
+                document.querySelectorAll('.product-thumbnail').forEach(t => {
+                    t.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Animation effect
+                anime({
+                    targets: '#main-product-image',
+                    scale: [0.9, 1],
+                    opacity: [0, 1],
+                    duration: 500,
+                    easing: 'easeInOutQuad'
+                });
+            });
+        });
+
+        // Quantity selector functionality
+        document.getElementById('increase-qty').addEventListener('click', function() {
+            const qtyInput = document.getElementById('product-qty');
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+            
+            // Animation
+            anime({
+                targets: '#product-qty',
+                scale: [1.2, 1],
+                duration: 300,
+                easing: 'easeInOutQuad'
+            });
+        });
+        
+        document.getElementById('decrease-qty').addEventListener('click', function() {
+            const qtyInput = document.getElementById('product-qty');
+            if (parseInt(qtyInput.value) > 1) {
+                qtyInput.value = parseInt(qtyInput.value) - 1;
+                
+                // Animation
+                anime({
+                    targets: '#product-qty',
+                    scale: [0.8, 1],
+                    duration: 300,
+                    easing: 'easeInOutQuad'
+                });
+            }
+        });
+
+        // Color selection functionality
+        document.querySelectorAll('.color-option').forEach(color => {
+            color.addEventListener('click', function() {
+                // Animation
+                anime({
+                    targets: this,
+                    scale: [1.2, 1],
+                    duration: 300,
+                    easing: 'easeInOutQuad'
+                });
+                
+                // You would typically update something to show the selected color here
+            });
+        });
+
+        // Add to cart animation
+        document.querySelector('.btn-add-to-cart').addEventListener('click', function() {
+            anime({
+                targets: this,
+                scale: [0.9, 1],
+                backgroundColor: ['#000', '#fff'],
+                color: ['#fff', '#000'],
+                duration: 500,
+                easing: 'easeInOutQuad'
+            });
+        });
+
+        // Wishlist button animation
+        document.querySelector('.btn-wishlist').addEventListener('click', function() {
+            anime({
+                targets: this,
+                scale: [0.9, 1],
+                backgroundColor: ['#fff', 'transparent'],
+                color: ['#000', '#fff'],
+                duration: 500,
+                easing: 'easeInOutQuad'
+            });
+        });
+
+        // Scroll animations with Anime.js
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements on scroll
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.animate-element');
+                
+                elements.forEach(element => {
+                    const position = element.getBoundingClientRect();
+                    
+                    // If element is in viewport
+                    if(position.top < window.innerHeight && position.bottom >= 0) {
+                        anime({
+                            targets: element,
+                            translateY: 0,
+                            opacity: 1,
+                            duration: 1000,
+                            easing: 'easeOutExpo'
+                        });
+                    }
+                });
+            }
+            
+            // Run on load and scroll
+            animateOnScroll();
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // Navbar background change on scroll
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.95) !important';
+                    navbar.style.padding = '15px 0';
+                } else {
+                    navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.9) !important';
+                    navbar.style.padding = '20px 0';
+                }
+            });
+            
+            // Animate floating elements
+            anime({
+                targets: '.floating-element',
+                translateY: function() {
+                    return anime.random(-20, 20);
+                },
+                translateX: function() {
+                    return anime.random(-15, 15);
+                },
+                duration: function() {
+                    return anime.random(2000, 4000);
+                },
+                easing: 'easeInOutSine',
+                direction: 'alternate',
+                loop: true
+            });
+        });
+    </script>
+</body>
+</html>
