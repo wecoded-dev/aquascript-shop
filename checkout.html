@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | AquaScript</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-black: #000;
+            --primary-white: #fff;
+            --accent-gray: #1a1a1a;
+            --light-gray: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-white);
+            background-color: var(--primary-black);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.9) !important;
+            padding: 20px 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-white);
+            letter-spacing: 2px;
+        }
+        
+        .nav-link {
+            color: var(--primary-white) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-white);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        /* Checkout Section */
+        .checkout-section {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background-color: var(--primary-white);
+            bottom: -10px;
+            left: 0;
+        }
+        
+        .checkout-form {
+            background-color: var(--accent-gray);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.05);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: var(--primary-white);
+            padding: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-white);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .order-summary {
+            background-color: var(--accent-gray);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        
+        .product-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .product-details {
+            flex: 1;
+        }
+        
+        .btn-checkout {
+            background-color: var(--primary-white);
+            color: var(--primary-black);
+            border: none;
+            padding: 15px 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+        
+        .btn-checkout:hover {
+            background-color: transparent;
+            color: var(--primary-white);
+            border: 1px solid var(--primary-white);
+        }
+        
+        .payment-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .payment-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-option:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .payment-option.active {
+            background-color: var(--primary-white);
+            color: var(--primary-black);
+        }
+        
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Animation elements */
+        .animate-element {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-section {
+                padding: 70px 0;
+            }
+            
+            .checkout-form {
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .payment-options {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .product-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .product-image {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">AQUASCRIPT</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Collections</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Section -->
+    <section class="checkout-section">
+        <div id="particles-js"></div>
+        
+        <!-- Floating elements -->
+        <div class="floating-element" style="top: 10%; left: 5%;">
+            <i class="fas fa-circle" style="font-size: 30px;"></i>
+        </div>
+        <div class="floating-element" style="top: 20%; right: 10%;">
+            <i class="fas fa-square" style="font-size: 40px;"></i>
+        </div>
+        <div class="floating-element" style="bottom: 30%; left: 15%;">
+            <i class="fas fa-heart" style="font-size: 25px;"></i>
+        </div>
+        <div class="floating-element" style="bottom: 20%; right: 5%;">
+            <i class="fas fa-star" style="font-size: 35px;"></i>
+        </div>
+        
+        <div class="container">
+            <h2 class="section-title animate-element">Complete Your Order</h2>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="checkout-form animate-element">
+                        <h3 class="mb-4">Customer Information</h3>
+                        
+                        <form id="checkout-form" action="https://api.web3forms.com/submit" method="POST">
+                            <!-- Replace with your actual Access Key -->
+                            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                            <input type="hidden" name="subject" value="New Order from AquaScript">
+                            <input type="hidden" name="from_name" value="AquaScript Store">
+                            <input type="checkbox" name="botcheck" id="" style="display: none;">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" id="firstName" name="first_name" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" id="lastName" name="last_name" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" id="email" name="email" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="address" class="form-label">Shipping Address</label>
+                                <input type="text" id="address" name="address" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" id="city" name="city" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="zipCode" class="form-label">ZIP Code</label>
+                                    <input type="text" id="zipCode" name="zip_code" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="country" class="form-label">Country</label>
+                                <select id="country" name="country" class="form-control" required>
+                                    <option value="">Select Country</option>
+                                    <option value="USA">United States</option>
+                                    <option value="UK">United Kingdom</option>
+                                    <option value="CAN">Canada</option>
+                                    <option value="AUS">Australia</option>
+                                    <option value="GER">Germany</option>
+                                    <option value="FRA">France</option>
+                                    <option value="JPN">Japan</option>
+                                    <!-- Add more countries as needed -->
+                                </select>
+                            </div>
+                            
+                            <h3 class="my-4">Product Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="productName" class="form-label">Product Name</label>
+                                <input type="text" id="productName" name="product_name" class="form-control" value="Minimalist Timepiece" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productCode" class="form-label">Product Code</label>
+                                    <input type="text" id="productCode" name="product_code" class="form-control" value="AQ-MT-2023" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="productQuantity" class="form-label">Quantity</label>
+                                    <input type="number" id="productQuantity" name="product_quantity" class="form-control" value="1" min="1" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productColor" class="form-label">Product Color</label>
+                                <select id="productColor" name="product_color" class="form-control" required>
+                                    <option value="Black">Black</option>
+                                    <option value="Silver">Silver</option>
+                                    <option value="White">White</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="specialNotes" class="form-label">Special Notes (Optional)</label>
+                                <textarea id="specialNotes" name="special_notes" class="form-control" rows="3"></textarea>
+                            </div>
+                            
+                            <h3 class="my-4">Payment Method</h3>
+                            
+                            <div class="payment-options">
+                                <div class="payment-option" data-method="credit-card">
+                                    <div class="payment-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div>Credit Card</div>
+                                </div>
+                                
+                                <div class="payment-option" data-method="paypal">
+                                    <div class="payment-icon">
+                                        <i class="fab fa-paypal"></i>
+                                    </div>
+                                    <div>PayPal</div>
+                                </div>
+                                
+                                <div class="payment-option" data-method="crypto">
+                                    <div class="payment-icon">
+                                        <i class="fab fa-bitcoin"></i>
+                                    </div>
+                                    <div>Crypto</div>
+                                </div>
+                            </div>
+                            
+                            <input type="hidden" id="paymentMethod" name="payment_method" value="credit-card">
+                            
+                            <button type="submit" class="btn-checkout">
+                                <i class="fas fa-lock me-2"></i> Complete Order
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="order-summary animate-element">
+                        <h3 class="mb-4">Order Summary</h3>
+                        
+                        <div class="product-info">
+                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80" 
+                                 alt="Minimalist Timepiece" class="product-image">
+                            <div class="product-details">
+                                <h4>Minimalist Timepiece</h4>
+                                <p>Product Code: AQ-MT-2023</p>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span>Subtotal</span>
+                            <span>$249.00</span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span>Shipping</span>
+                            <span>$15.00</span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span>Tax</span>
+                            <span>$24.90</span>
+                        </div>
+                        
+                        <div class="summary-total">
+                            <span>Total</span>
+                            <span>$288.90</span>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary animate-element">
+                        <h3 class="mb-4">Shipping Information</h3>
+                        
+                        <p>Orders are processed within 1-2 business days. Shipping typically takes 3-5 business days for domestic orders and 7-14 days for international orders.</p>
+                        
+                        <p>You will receive a tracking number via email once your order has shipped.</p>
+                        
+                        <p>For any questions about your order, please contact our customer service team at support@aquascript.com.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script> 
+
+    <script>
+        // Initialize Lenis for smooth scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Initialize particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 60,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    }
+                },
+                opacity: {
+                    value: 0.3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.5
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Payment method selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.payment-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                
+                this.classList.add('active');
+                document.getElementById('paymentMethod').value = this.dataset.method;
+                
+                // Animation
+                anime({
+                    targets: this,
+                    scale: [0.9, 1],
+                    duration: 300,
+                    easing: 'easeInOutQuad'
+                });
+            });
+        });
+
+        // Form submission handling
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
+            submitBtn.disabled = true;
+            
+            // Simulate form submission (replace with actual form submission)
+            setTimeout(() => {
+                // Success animation
+                anime({
+                    targets: '#checkout-form',
+                    opacity: 0.7,
+                    duration: 500,
+                    easing: 'easeInOutQuad',
+                    complete: function() {
+                        // Show success message
+                        const successMessage = document.createElement('div');
+                        successMessage.innerHTML = `
+                            <div class="alert alert-success mt-4" role="alert">
+                                <h4 class="alert-heading"><i class="fas fa-check-circle me-2"></i>Order Successful!</h4>
+                                <p>Thank you for your order. We have sent a confirmation email with your order details.</p>
+                                <hr>
+                                <p class="mb-0">You will receive a tracking number once your order ships.</p>
+                            </div>
+                        `;
+                        
+                        document.querySelector('.checkout-form').appendChild(successMessage);
+                        
+                        // Animation for success message
+                        anime({
+                            targets: successMessage,
+                            translateY: [50, 0],
+                            opacity: [0, 1],
+                            duration: 1000,
+                            easing: 'easeOutExpo'
+                        });
+                    }
+                });
+            }, 2000);
+        });
+
+        // Quantity change handler
+        document.getElementById('productQuantity').addEventListener('change', function() {
+            const quantity = parseInt(this.value);
+            const price = 249;
+            const shipping = 15;
+            const taxRate = 0.1;
+            
+            const subtotal = price * quantity;
+            const tax = subtotal * taxRate;
+            const total = subtotal + shipping + tax;
+            
+            // Update order summary
+            document.querySelectorAll('.summary-item')[0].querySelector('span:last-child').textContent = `$${subtotal.toFixed(2)}`;
+            document.querySelectorAll('.summary-item')[2].querySelector('span:last-child').textContent = `$${tax.toFixed(2)}`;
+            document.querySelector('.summary-total span:last-child').textContent = `$${total.toFixed(2)}`;
+            
+            // Animation
+            anime({
+                targets: '.order-summary',
+                scale: [1.02, 1],
+                duration: 500,
+                easing: 'easeInOutQuad'
+            });
+        });
+
+        // Scroll animations with Anime.js
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements on scroll
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.animate-element');
+                
+                elements.forEach(element => {
+                    const position = element.getBoundingClientRect();
+                    
+                    // If element is in viewport
+                    if(position.top < window.innerHeight && position.bottom >= 0) {
+                        anime({
+                            targets: element,
+                            translateY: 0,
+                            opacity: 1,
+                            duration: 1000,
+                            easing: 'easeOutExpo'
+                        });
+                    }
+                });
+            }
+            
+            // Run on load and scroll
+            animateOnScroll();
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // Navbar background change on scroll
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.95) !important';
+                    navbar.style.padding = '15px 0';
+                } else {
+                    navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.9) !important';
+                    navbar.style.padding = '20px 0';
+                }
+            });
+            
+            // Animate floating elements
+            anime({
+                targets: '.floating-element',
+                translateY: function() {
+                    return anime.random(-20, 20);
+                },
+                translateX: function() {
+                    return anime.random(-15, 15);
+                },
+                duration: function() {
+                    return anime.random(2000, 4000);
+                },
+                easing: 'easeInOutSine',
+                direction: 'alternate',
+                loop: true
+            });
+            
+            // Input focus animations
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('focus', function() {
+                    anime({
+                        targets: this,
+                        scale: 1.02,
+                        duration: 300,
+                        easing: 'easeInOutQuad'
+                    });
+                });
+                
+                input.addEventListener('blur', function() {
+                    anime({
+                        targets: this,
+                        scale: 1,
+                        duration: 300,
+                        easing: 'easeInOutQuad'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
